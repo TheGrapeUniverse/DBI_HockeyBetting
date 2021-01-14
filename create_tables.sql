@@ -1,7 +1,7 @@
 -- Drop-table statements
 
 drop table Region;
-drop table User;
+drop table UserAccount;
 drop table Coach;
 drop table HockeyTeam;
 drop table HockeyPlayer;
@@ -20,12 +20,12 @@ create table Region
     RegionName varchar(20) not null
 );
 /
-create table User
+create table UserAccount
 (
     UserID number(5) primary key,
     UserName varchar(20) not null,
     PasswordHash varchar(64) not null,
-    RegionID varchar(50),
+    RegionID number(5),
 
     foreign key (RegionID) references Region(RegionID)
 );
@@ -64,18 +64,19 @@ create table HockeyMatch
     TeamAID number(5) not null,
     TeamBID number(5) not null,
 
-    foreign key (TeamAID, TeamBID) references HockeyTeam(TeamID)
+    foreign key (TeamAID) references HockeyTeam(TeamID),
+    foreign key (TeamBID) references HockeyTeam(TeamID)
 );
 /
 create table Bet
 (
-    BetID number(5) primary key;
+    BetID number(5) primary key,
     UserID number(5) not null,
     MatchID number(5) not null,
     WinningTeam number(5) not null,
     Stake number(3) not null, -- Max Stake 999 € 
     
-    foreign key (UserID) references User(UserID),
+    foreign key (UserID) references UserAccount(UserID),
     foreign key (MatchID) references HockeyMatch(MatchID),
     foreign key (WinningTeam) references HockeyTeam(TeamID)
 );
