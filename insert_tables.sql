@@ -79,3 +79,4 @@ insert into PlayerStats values (7, 8, 9);
 insert into PlayerStats values (8, 8, 16);
 insert into PlayerStats values (9, 14, 7);
 
+insert into Penalty values (0, 5, 30, 'General incompetence');
