@@ -1,7 +1,16 @@
 -- Drop-table statements
 
-drop table User;
 drop table Region;
+drop table User;
+drop table Coach;
+drop table HockeyTeam;
+drop table HockeyPlayer;
+drop table HockeyMatch;
+drop table Bet;
+drop table Highlight;
+drop table Penalty;
+drop table PlayerStats;
+drop table MatchScore;
 
 -- Create-table statements
 
@@ -10,7 +19,7 @@ create table Region
     RegionID number(5) primary key,
     RegionName varchar(20) not null
 );
-
+/
 create table User
 (
     UserID number(5) primary key,
@@ -20,14 +29,14 @@ create table User
 
     foreign key (RegionID) references Region(RegionID)
 );
-
+/
 create table Coach
 (
     CoachID number(5) primary key,
     FirstName varchar(20) not null,
     LastName varchar(20) not null
 );
-
+/
 create table HockeyTeam
 (
     TeamID number(5) primary key,
@@ -36,8 +45,8 @@ create table HockeyTeam
     CoachID number(5) not null,
 
     foreign key (CoachID) references Coach(CoachID)
-)
-
+);
+/
 create table HockeyPlayer
 (
     PlayerID number(5) primary key,
@@ -47,7 +56,17 @@ create table HockeyPlayer
 
     foreign key (TeamID) references HockeyTeam(TeamID)
 );
+/
+create table HockeyMatch
+(
+    MatchID number(5) primary key,
+    Description varchar(50) not null,
+    TeamAID number(5) not null,
+    TeamBID number(5) not null,
 
+    foreign key (TeamAID, TeamBID) references HockeyTeam(TeamID)
+);
+/
 create table Bet
 (
     BetID number(5) primary key;
@@ -60,7 +79,7 @@ create table Bet
     foreign key (MatchID) references HockeyMatch(MatchID),
     foreign key (WinningTeam) references HockeyTeam(TeamID)
 );
-
+/
 create table Highlight
 (
     HighlightID number(5) primary key,
@@ -69,7 +88,7 @@ create table Highlight
     
     foreign key (MatchID) references HockeyMatch(MatchID) 
 );
-
+/
 create table Penalty
 (
     PenaltyID number(5) primary key,
@@ -79,10 +98,22 @@ create table Penalty
 
     foreign key (PlayerID) references HockeyPlayer(PlayerID)
 );
-
+/
 create table PlayerStats
 (
     PlayerID number(5) primary key,
     GoalCount number(5) not null,
     AssistCount number(5) not null,
+
+    foreign key (PlayerID) references HockeyPlayer(PlayerID)
+);
+/
+create table MatchScore
+(
+    MatchScoreID number(5) primary key,
+    MatchID number(5) not null,
+    TeamAScore number(5) not null,
+    TeamBScore number(5) not null,
+
+    foreign key (MatchID) references HockeyMatch(MatchID)
 );
